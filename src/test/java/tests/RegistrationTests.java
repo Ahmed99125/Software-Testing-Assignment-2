@@ -2,14 +2,28 @@ package tests;
 
 import base.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.RegisterationPage;
 import pages.RegisterationSuccessPage;
+import utils.CSVUtil;
 
 public class RegistrationTests extends BaseTest {
-    @Test
-    public void SuccessfulRegistrationTest() {
+    @DataProvider(name="validRegisterationData")
+    public Object[][] getValidRegisterationDataData() throws Exception {
+        return CSVUtil.getTestData("ValidRegisterationData.csv");
+    }
+
+    @DataProvider(name="InvalidRegisterationData")
+    public Object[][] getInvalidRegisterationDataData() throws Exception {
+        return CSVUtil.getTestData("InvalidRegisterationData.csv");
+    }
+
+    @Test(dataProvider = "validRegisterationData")
+    public void SuccessfulRegistrationTest(
+            String firstname, String lastname, String email,
+            String telephone, String password, String confirmPassword) {
         HomePage homePage = new HomePage(driver);
         RegisterationPage registerationPage = new RegisterationPage(driver);
         RegisterationSuccessPage  registerationSuccessPage = new RegisterationSuccessPage(driver);
@@ -19,13 +33,7 @@ public class RegistrationTests extends BaseTest {
         homePage.clickRegisterLink();
 
         // Fill in user information
-        registerationPage.fillRegisterationForm(
-                "ahmed",
-                "tamer",
-                "aaa@b.com",
-                "123456789",
-                "1234",
-                "1234");
+        registerationPage.fillRegisterationForm(firstname, lastname, email, telephone, password, confirmPassword);
 
         // Submit
         registerationPage.clickContinueButton();
@@ -42,18 +50,19 @@ public class RegistrationTests extends BaseTest {
         homePage.clickLogoutLink();
     }
 
-    @Test
-    public void FailedRegistrationTest(){
+    @Test(dataProvider = "InvalidRegisterationData")
+    public void FailedRegistrationTest(
+            String firstname, String lastname, String email,
+            String telephone, String password, String confirmPassword) {
         HomePage homePage = new HomePage(driver);
         RegisterationPage registerationPage = new RegisterationPage(driver);
-        RegisterationSuccessPage  registerationSuccessPage = new RegisterationSuccessPage(driver);
 
         // Go to registeration page
         homePage.clickMyAccountLink();
         homePage.clickRegisterLink();
 
         // Fill in user information
-        registerationPage.fillRegisterationForm("ahmed", "tamer", "", "", "", "");
+        registerationPage.fillRegisterationForm(firstname, lastname, "", "", "", "");
 
         registerationPage.clickContinueButton();
 
@@ -72,13 +81,7 @@ public class RegistrationTests extends BaseTest {
         );
 
         // Fill data
-        registerationPage.fillRegisterationForm(
-                "ahmed",
-                "tamer",
-                "aaa2@b.com",
-                "123456789",
-                "123",
-                "123");
+        registerationPage.fillRegisterationForm(firstname, lastname, email, telephone, password, confirmPassword);
 
         registerationPage.clickContinueButton();
 
