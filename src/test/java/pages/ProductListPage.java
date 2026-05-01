@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 public class ProductListPage {
     private final WebDriver driver;
 
+    // Success alert shown when item is added to cart
+    private final By successAlert = By.cssSelector("div.alert-success");
+
     // All price elements on the product listing page
     private final By productPrices = By.cssSelector(".product-thumb .price");
 
@@ -24,6 +27,7 @@ public class ProductListPage {
 
     // Currently highlighted / active item in the left sidebar category menu
     private final By activeSidebarItem = By.cssSelector("#column-left .list-group-item.active");
+    private final By addToCartButtons = By.cssSelector("button[onclick*='cart.add']");
 
     public ProductListPage(WebDriver driver) {
         this.driver = driver;
@@ -86,5 +90,32 @@ public class ProductListPage {
         // Remove trailing " (n)" product count, e.g. "Tablets (1)" -> "Tablets"
         return raw.split(" ")[0];
     }
-}
 
+    /**
+     * Clicks "Add to Cart" button for a specific product by its name.
+     */
+    public void clickAddToCartForProduct(String productName) {
+        List<WebElement> products = driver.findElements(By.cssSelector(".product-layout"));
+        boolean found = false;
+        for (WebElement product : products) {
+            String name = product.findElement(By.cssSelector("h4 a")).getText();
+            if (name.equalsIgnoreCase(productName)) {
+                product.findElement(By.cssSelector("button[onclick*='cart.add']")).click();
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new org.openqa.selenium.NoSuchElementException("Could not find product with name: " + productName);
+        }
+    }
+
+    /**
+     * Returns the text of the success alert.
+     */
+    public String getSuccessAlertText() {
+        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(10));
+        WebElement alert = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(successAlert));
+        return alert.getText().replaceAll("×", "").trim();
+    }
+}

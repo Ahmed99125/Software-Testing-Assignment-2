@@ -7,6 +7,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import utils.ConfigReader;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class BaseTest {
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         driver.get(config.get("url"));
     }

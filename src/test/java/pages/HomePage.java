@@ -11,6 +11,7 @@ public class HomePage {
     private final By registerLink = By.linkText("Register");
     private final By loginLink = By.linkText("Login");
     private final By logoutLink = By.linkText("Logout");
+    private final By shoppingCartLink = By.cssSelector("a[title='Shopping Cart']");
     private final By searchInput = By.name("search");
     private final By searchButton = By.cssSelector("#search button");
 
@@ -43,5 +44,9 @@ public class HomePage {
         input.clear();
         input.sendKeys(keyword);
         driver.findElement(searchButton).click();
+    }
+
+    public void clickShoppingCartLink() {
+        driver.findElement(shoppingCartLink).click();
     }
 }

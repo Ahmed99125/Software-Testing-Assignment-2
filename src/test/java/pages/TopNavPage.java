@@ -20,6 +20,12 @@ public class TopNavPage {
     // "Phones & PDAs" menu item
     private final By phonesPdasMenu = By.linkText("Phones & PDAs");
 
+    // "Laptops & Notebooks" menu item
+    private final By laptopsMenu = By.linkText("Laptops & Notebooks");
+
+    // "MP3 Players" menu item
+    private final By mp3PlayersMenu = By.linkText("MP3 Players");
+
     public TopNavPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -43,5 +49,44 @@ public class TopNavPage {
     /** Clicks the "Phones & PDAs" link in the top navigation bar. */
     public void clickPhonesPdas() {
         driver.findElement(phonesPdasMenu).click();
+    }
+
+    /**
+     * Hovers over the "Laptops & Notebooks" menu item,
+     * then clicks "Show All Laptops & Notebooks".
+     */
+    public void clickLaptopsShowAll() {
+        WebElement laptops = driver.findElement(laptopsMenu);
+        laptops.click();
+
+        // Find the see-all link using CSS
+        driver.findElement(By.cssSelector("li.dropdown.open a.see-all")).click();
+    }
+
+    /**
+     * Hovers over the "MP3 Players" menu item,
+     * then clicks "Show All MP3 Players".
+     */
+    public void clickMP3PlayersShowAll() {
+        WebElement mp3Players = driver.findElement(mp3PlayersMenu);
+        mp3Players.click();
+
+        // Find the see-all link using CSS
+        driver.findElement(By.cssSelector("li.dropdown.open a.see-all")).click();
+    }
+
+    /**
+     * Clicks a category link by name.
+     * If the category has a dropdown, it clicks the "Show All..." link.
+     */
+    public void navigateToCategory(String categoryName) {
+        if (categoryName.equalsIgnoreCase("Tablets") || categoryName.equalsIgnoreCase("Phones & PDAs")
+                || categoryName.equalsIgnoreCase("Cameras")) {
+            driver.findElement(By.linkText(categoryName)).click();
+        } else {
+            // For categories with "Show All"
+            driver.findElement(By.linkText(categoryName)).click();
+            driver.findElement(By.cssSelector("li.dropdown.open a.see-all")).click();
+        }
     }
 }
