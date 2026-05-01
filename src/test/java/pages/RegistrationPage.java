@@ -74,7 +74,10 @@ public class RegistrationPage {
     }
 
     public void fillPrivacyPolicy() {
-        driver.findElement(privacyPolicy).click();
+        WebElement element = driver.findElement(privacyPolicy);
+        if (!element.isSelected()) {
+            element.click();
+        }
     }
 
     public void clickContinueButton() {
