@@ -5,90 +5,90 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HomePage;
-import pages.RegisterationPage;
-import pages.RegisterationSuccessPage;
+import pages.RegistrationPage;
+import pages.RegistrationSuccessPage;
 import utils.CSVUtil;
 
 public class RegistrationTests extends BaseTest {
-    @DataProvider(name="validRegisterationData")
-    public Object[][] getValidRegisterationDataData() throws Exception {
-        return CSVUtil.getTestData("ValidRegisterationData.csv");
+    @DataProvider(name = "validRegistrationData")
+    public Object[][] getValidRegistrationDataData() throws Exception {
+        return CSVUtil.getTestData("ValidRegistrationData.csv");
     }
 
-    @DataProvider(name="InvalidRegisterationData")
-    public Object[][] getInvalidRegisterationDataData() throws Exception {
-        return CSVUtil.getTestData("InvalidRegisterationData.csv");
+    @DataProvider(name = "InvalidRegistrationData")
+    public Object[][] getInvalidRegistrationDataData() throws Exception {
+        return CSVUtil.getTestData("InvalidRegistrationData.csv");
     }
 
-    @Test(dataProvider = "validRegisterationData")
+    @Test(dataProvider = "validRegistrationData")
     public void SuccessfulRegistrationTest(
             String firstname, String lastname, String email,
             String telephone, String password, String confirmPassword) {
         HomePage homePage = new HomePage(driver);
-        RegisterationPage registerationPage = new RegisterationPage(driver);
-        RegisterationSuccessPage  registerationSuccessPage = new RegisterationSuccessPage(driver);
+        RegistrationPage registrationPage = new RegistrationPage(driver);
+        RegistrationSuccessPage registrationSuccessPage = new RegistrationSuccessPage(driver);
 
-        // Go to registeration page
+        // Go to registration page
         homePage.clickMyAccountLink();
         homePage.clickRegisterLink();
 
         // Fill in user information
-        registerationPage.fillRegisterationForm(firstname, lastname, email, telephone, password, confirmPassword);
+        registrationPage.fillRegistrationForm(firstname, lastname, email, telephone, password, confirmPassword);
 
         // Submit
-        registerationPage.clickContinueButton();
+        registrationPage.clickContinueButton();
 
         // Check "Your Account Has Been Created!" message
-        registerationSuccessPage.clickContinueButton();
+        registrationSuccessPage.clickContinueButton();
 
         // Check if LogOut exists on My Account menu
         homePage.clickMyAccountLink();
 
-        Assert.assertEquals(true, homePage.checkLogoutLinkExist());
+        Assert.assertEquals(homePage.checkLogoutLinkExist(), true);
 
         // Logout of the system
         homePage.clickLogoutLink();
     }
 
-    @Test(dataProvider = "InvalidRegisterationData")
+    @Test(dataProvider = "InvalidRegistrationData")
     public void FailedRegistrationTest(
             String firstname, String lastname, String email,
             String telephone, String password, String confirmPassword) {
         HomePage homePage = new HomePage(driver);
-        RegisterationPage registerationPage = new RegisterationPage(driver);
+        RegistrationPage registrationPage = new RegistrationPage(driver);
 
-        // Go to registeration page
+        // Go to registration page
         homePage.clickMyAccountLink();
         homePage.clickRegisterLink();
 
         // Fill in user information
-        registerationPage.fillRegisterationForm(firstname, lastname, "", "", "", "");
+        registrationPage.fillRegistrationForm(firstname, lastname, "", "", "", "");
 
-        registerationPage.clickContinueButton();
+        registrationPage.clickContinueButton();
 
         // Check errors
         Assert.assertEquals(
-                "E-Mail Address does not appear to be valid!",
-                registerationPage.getEmailErrorText()
+                registrationPage.getEmailErrorText(),
+                "E-Mail Address does not appear to be valid!"
         );
         Assert.assertEquals(
-                "Telephone must be between 3 and 32 characters!",
-                registerationPage.getTelephoneErrorText()
+                registrationPage.getTelephoneErrorText(),
+                "Telephone must be between 3 and 32 characters!"
         );
         Assert.assertEquals(
-                "Password must be between 4 and 20 characters!",
-                registerationPage.getPasswordErrorText()
+                registrationPage.getPasswordErrorText(),
+                "Password must be between 4 and 20 characters!"
         );
 
         // Fill data
-        registerationPage.fillRegisterationForm(firstname, lastname, email, telephone, password, confirmPassword);
+        registrationPage.fillRegistrationForm(firstname, lastname, email, telephone, password, confirmPassword);
 
-        registerationPage.clickContinueButton();
+        registrationPage.clickContinueButton();
 
         // Check password error
         Assert.assertEquals(
-                "Password must be between 4 and 20 characters!",
-                registerationPage.getPasswordErrorText()
+                registrationPage.getPasswordErrorText(),
+                "Password must be between 4 and 20 characters!"
         );
     }
 }

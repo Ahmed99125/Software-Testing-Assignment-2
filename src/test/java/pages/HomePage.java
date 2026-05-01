@@ -4,12 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class HomePage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
-    private By myAccountLink = By.cssSelector("a[title='My Account']");
-    private By registerLink = By.linkText("Register");
-    private By loginLink = By.linkText("Login");
-    private By logoutLink = By.linkText("Logout");
+    private final By myAccountLink = By.cssSelector("a[title='My Account']");
+    private final By registerLink = By.linkText("Register");
+    private final By loginLink = By.linkText("Login");
+    private final By logoutLink = By.linkText("Logout");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;

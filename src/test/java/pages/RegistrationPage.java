@@ -4,26 +4,26 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class RegisterationPage {
-    private WebDriver driver;
+public class RegistrationPage {
+    private final WebDriver driver;
 
-    private By firstName = By.name("firstname");
-    private By lastName = By.name("lastname");
-    private By email = By.name("email");
-    private By telephone = By.name("telephone");
-    private By password = By.name("password");
-    private By confirmPassword = By.name("confirm");
-    private By privacyPolicy = By.name("agree");
-    private By continueButton = By.cssSelector("input[type='submit']");
+    private final By firstName = By.name("firstname");
+    private final By lastName = By.name("lastname");
+    private final By email = By.name("email");
+    private final By telephone = By.name("telephone");
+    private final By password = By.name("password");
+    private final By confirmPassword = By.name("confirm");
+    private final By privacyPolicy = By.name("agree");
+    private final By continueButton = By.cssSelector("input[type='submit']");
 
-    private By firstNameError = By.cssSelector("input[name='firstname'] + .text-danger");
-    private By lastNameError = By.cssSelector("input[name='lastname'] + .text-danger");
-    private By emailError = By.cssSelector("input[name='email'] + .text-danger");
-    private By telephoneError = By.cssSelector("input[name='telephone'] + .text-danger");
-    private By passwordError = By.cssSelector("input[name='password'] + .text-danger");
+    private final By firstNameError = By.cssSelector("input[name='firstname'] + .text-danger");
+    private final By lastNameError = By.cssSelector("input[name='lastname'] + .text-danger");
+    private final By emailError = By.cssSelector("input[name='email'] + .text-danger");
+    private final By telephoneError = By.cssSelector("input[name='telephone'] + .text-danger");
+    private final By passwordError = By.cssSelector("input[name='password'] + .text-danger");
 
 
-    public RegisterationPage(WebDriver driver) {
+    public RegistrationPage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -63,7 +63,7 @@ public class RegisterationPage {
         input.sendKeys(confirmPasswordInput);
     }
 
-    public void fillRegisterationForm(String firstName, String lastName, String email, String telephone, String password, String confirmPassword) {
+    public void fillRegistrationForm(String firstName, String lastName, String email, String telephone, String password, String confirmPassword) {
         fillFirstName(firstName);
         fillLastName(lastName);
         fillEmail(email);
