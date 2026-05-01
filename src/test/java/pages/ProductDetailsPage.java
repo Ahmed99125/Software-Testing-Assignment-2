@@ -3,9 +3,13 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class ProductDetailsPage {
-    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // Locators
     private final By addToCartButton = By.id("button-cart");
@@ -13,24 +17,21 @@ public class ProductDetailsPage {
     private final By dateInput = By.cssSelector("div.date input");
 
     public ProductDetailsPage(WebDriver driver) {
-        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void enterDeliveryDate(String date) {
-        WebElement input = driver.findElement(dateInput);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(dateInput));
         input.clear();
         input.sendKeys(date);
     }
 
     public void clickAddToCart() {
-        driver.findElement(addToCartButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(addToCartButton)).click();
     }
 
     public String getSuccessAlertText() {
-        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver,
-                java.time.Duration.ofSeconds(10));
-        WebElement alert =
-                wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(successAlert));
+        WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(successAlert));
         return alert.getText().replaceAll("×", "").trim();
     }
 }

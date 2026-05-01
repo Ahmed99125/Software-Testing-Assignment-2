@@ -2,13 +2,20 @@ package tests;
 
 import base.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.*;
+import utils.CSVUtil;
 
 public class CurrencyTests extends BaseTest {
 
-    @Test
-    public void ChangeCurrencyTest() {
+    @DataProvider(name = "CurrencyData")
+    public Object[][] getCurrencyData() throws Exception {
+        return CSVUtil.getTestData("CurrencyData.csv");
+    }
+
+    @Test(dataProvider = "CurrencyData")
+    public void ChangeCurrencyTest(String currency, String symbol) {
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = new LoginPage(driver);
         TopNavPage topNavPage = new TopNavPage(driver);
@@ -29,13 +36,13 @@ public class CurrencyTests extends BaseTest {
                 "Prices should be displayed in US Dollar ($) by default."
         );
 
-        // 4. Change currency to Euro
-        currencyPage.changeCurrencyToEuro();
+        // 4. Change currency
+        currencyPage.changeCurrency(currency);
 
-        // 5. Verify that prices are now shown in €
+        // 5. Verify that prices show in the selected currency
         Assert.assertTrue(
-                productListPage.allPricesContainSymbol("€"),
-                "Prices should be displayed in Euro (€) after currency change."
+                productListPage.allPricesContainSymbol(symbol),
+                "Prices should be displayed in " + currency + " (" + symbol + ") after changing currency."
         );
 
         // 6. Logout

@@ -4,9 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class TopNavPage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // "Desktops" menu item in the top navigation bar
     private final By desktopsMenu = By.linkText("Desktops");
@@ -28,6 +33,7 @@ public class TopNavPage {
 
     public TopNavPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     /**
@@ -36,23 +42,23 @@ public class TopNavPage {
      */
     public void clickDesktopsShowAll() {
         Actions actions = new Actions(driver);
-        WebElement desktops = driver.findElement(desktopsMenu);
+        WebElement desktops = wait.until(ExpectedConditions.visibilityOfElementLocated(desktopsMenu));
         actions.moveToElement(desktops).perform();
-        driver.findElement(showAllDesktops).click();
+        wait.until(ExpectedConditions.elementToBeClickable(showAllDesktops)).click();
     }
 
     /**
      * Clicks the "Tablets" link in the top navigation bar.
      */
     public void clickTablets() {
-        driver.findElement(tabletsMenu).click();
+        wait.until(ExpectedConditions.elementToBeClickable(tabletsMenu)).click();
     }
 
     /**
      * Clicks the "Phones & PDAs" link in the top navigation bar.
      */
     public void clickPhonesPdas() {
-        driver.findElement(phonesPdasMenu).click();
+        wait.until(ExpectedConditions.elementToBeClickable(phonesPdasMenu)).click();
     }
 
     /**
@@ -60,11 +66,11 @@ public class TopNavPage {
      * then clicks "Show All Laptops & Notebooks".
      */
     public void clickLaptopsShowAll() {
-        WebElement laptops = driver.findElement(laptopsMenu);
+        WebElement laptops = wait.until(ExpectedConditions.elementToBeClickable(laptopsMenu));
         laptops.click();
 
         // Find the see-all link using CSS
-        driver.findElement(By.cssSelector("li.dropdown.open a.see-all")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("li.dropdown.open a.see-all"))).click();
     }
 
     /**
@@ -72,11 +78,11 @@ public class TopNavPage {
      * then clicks "Show All MP3 Players".
      */
     public void clickMP3PlayersShowAll() {
-        WebElement mp3Players = driver.findElement(mp3PlayersMenu);
+        WebElement mp3Players = wait.until(ExpectedConditions.elementToBeClickable(mp3PlayersMenu));
         mp3Players.click();
 
         // Find the see-all link using CSS
-        driver.findElement(By.cssSelector("li.dropdown.open a.see-all")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("li.dropdown.open a.see-all"))).click();
     }
 
     /**
@@ -86,11 +92,11 @@ public class TopNavPage {
     public void navigateToCategory(String categoryName) {
         if (categoryName.equalsIgnoreCase("Tablets") || categoryName.equalsIgnoreCase("Phones & PDAs")
                 || categoryName.equalsIgnoreCase("Cameras")) {
-            driver.findElement(By.linkText(categoryName)).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.linkText(categoryName))).click();
         } else {
             // For categories with "Show All"
-            driver.findElement(By.linkText(categoryName)).click();
-            driver.findElement(By.cssSelector("li.dropdown.open a.see-all")).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.linkText(categoryName))).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("li.dropdown.open a.see-all"))).click();
         }
     }
 }

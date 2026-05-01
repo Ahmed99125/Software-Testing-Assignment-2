@@ -3,11 +3,15 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class ShoppingCartPage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // Locators
     private final By cartRows = By.cssSelector("div.table-responsive table tbody tr");
@@ -15,10 +19,11 @@ public class ShoppingCartPage {
 
     public ShoppingCartPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public boolean isItemInCart(String itemName) {
-        List<WebElement> rows = driver.findElements(cartRows);
+        List<WebElement> rows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(cartRows));
         for (WebElement row : rows) {
             if (row.findElement(By.cssSelector("td.text-left a")).getText().contains(itemName)) {
                 return true;
@@ -28,7 +33,7 @@ public class ShoppingCartPage {
     }
 
     public String getItemPrice(String itemName) {
-        List<WebElement> rows = driver.findElements(cartRows);
+        List<WebElement> rows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(cartRows));
         for (WebElement row : rows) {
             if (row.findElement(By.cssSelector("td.text-left a")).getText().contains(itemName)) {
                 // Return the unit price (usually second to last column in the row)
@@ -40,19 +45,25 @@ public class ShoppingCartPage {
     }
 
     public String getItemDeliveryDate(String itemName) {
-        List<WebElement> rows = driver.findElements(cartRows);
+        List<WebElement> rows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(cartRows));
         for (WebElement row : rows) {
-            WebElement link = row.findElement(By.cssSelector("td.text-left a"));
-            if (link.getText().contains(itemName)) {
-                // Find small tag containing delivery date
-                return row.findElement(By.cssSelector("td.text-left small")).getText();
+            // In OpenCart, the name and options are in a td.text-left
+            List<WebElement> cells = row.findElements(By.cssSelector("td.text-left"));
+            for (WebElement cell : cells) {
+                if (cell.getText().contains(itemName)) {
+                    try {
+                        return cell.findElement(By.tagName("small")).getText();
+                    } catch (org.openqa.selenium.NoSuchElementException e) {
+                        // This specific cell doesn't have a small tag, continue searching
+                    }
+                }
             }
         }
         return "";
     }
 
     public String getTotalPrice() {
-        List<WebElement> rows = driver.findElements(totalRows);
+        List<WebElement> rows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(totalRows));
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.cssSelector("td"));
             if (cells.size() >= 2 && cells.get(0).getText().contains("Total")
@@ -64,7 +75,7 @@ public class ShoppingCartPage {
     }
 
     public String getSubTotalPrice() {
-        List<WebElement> rows = driver.findElements(totalRows);
+        List<WebElement> rows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(totalRows));
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.cssSelector("td"));
             if (cells.size() >= 2 && cells.get(0).getText().contains("Sub-Total")) {
@@ -75,30 +86,32 @@ public class ShoppingCartPage {
     }
 
     public void clickCheckoutButton() {
-        driver.findElement(By.linkText("Checkout")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Checkout"))).click();
     }
 
     public String getSmallCartItemCount() {
-        return driver.findElement(By.id("cart-total")).getText().split(" ")[0];
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("cart-total"))).getText().split(" ")[0];
     }
 
     public boolean hasStockWarning() {
-        List<WebElement> alerts = driver.findElements(By.cssSelector(".alert-danger"));
-        for (WebElement alert : alerts) {
-            if (alert.getText().contains("***")) {
-                return true;
+        try {
+            List<WebElement> alerts = driver.findElements(By.cssSelector(".alert-danger"));
+            for (WebElement alert : alerts) {
+                if (alert.getText().contains("***")) {
+                    return true;
+                }
             }
+        } catch (Exception e) {
+            return false;
         }
         return false;
     }
 
     public String getWarningMessage() {
-        return driver.findElement(By.cssSelector(".alert-danger")).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert-danger"))).getText();
     }
 
     public void clearCart() {
-        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver,
-                java.time.Duration.ofSeconds(10));
         while (true) {
             // Target only remove buttons within the cart table
             List<WebElement> removeButtons = driver
@@ -109,11 +122,11 @@ public class ShoppingCartPage {
 
             try {
                 WebElement button = removeButtons.get(0);
-                wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(button));
+                wait.until(ExpectedConditions.elementToBeClickable(button));
                 button.click();
 
                 // Wait for the specific row to disappear or page to refresh
-                wait.until(org.openqa.selenium.support.ui.ExpectedConditions.stalenessOf(button));
+                wait.until(ExpectedConditions.stalenessOf(button));
             } catch (Exception e) {
                 // If something goes wrong (e.g. staleness or not interactable),
                 // refresh the list in the next iteration

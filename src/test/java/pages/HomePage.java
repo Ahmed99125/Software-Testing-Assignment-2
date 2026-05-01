@@ -3,9 +3,13 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class HomePage {
-    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By myAccountLink = By.cssSelector("a[title='My Account']");
     private final By registerLink = By.linkText("Register");
@@ -16,37 +20,41 @@ public class HomePage {
     private final By searchButton = By.cssSelector("#search button");
 
     public HomePage(WebDriver driver) {
-        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void clickMyAccountLink() {
-        driver.findElement(myAccountLink).click();
+        wait.until(ExpectedConditions.elementToBeClickable(myAccountLink)).click();
     }
 
     public void clickRegisterLink() {
-        driver.findElement(registerLink).click();
+        wait.until(ExpectedConditions.elementToBeClickable(registerLink)).click();
     }
 
     public void clickLoginLink() {
-        driver.findElement(loginLink).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginLink)).click();
     }
 
     public void clickLogoutLink() {
-        driver.findElement(logoutLink).click();
+        wait.until(ExpectedConditions.elementToBeClickable(logoutLink)).click();
     }
 
     public Boolean checkLogoutLinkExist() {
-        return driver.findElement(logoutLink).isDisplayed();
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(logoutLink)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void search(String keyword) {
-        WebElement input = driver.findElement(searchInput);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchInput));
         input.clear();
         input.sendKeys(keyword);
-        driver.findElement(searchButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
     }
 
     public void clickShoppingCartLink() {
-        driver.findElement(shoppingCartLink).click();
+        wait.until(ExpectedConditions.elementToBeClickable(shoppingCartLink)).click();
     }
 }

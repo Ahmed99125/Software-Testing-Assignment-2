@@ -3,13 +3,15 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductListPage {
-    private final WebDriver driver;
     private final WebDriverWait wait;
 
     // Success alert shown when item is added to cart
@@ -32,15 +34,14 @@ public class ProductListPage {
     private final By addToCartButtons = By.cssSelector("button[onclick*='cart.add']");
 
     public ProductListPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     /**
      * Returns the text of all product names visible on the page.
      */
     public List<String> getProductNames() {
-        return driver.findElements(productNames).stream()
+        return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productNames)).stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }
@@ -50,16 +51,21 @@ public class ProductListPage {
      * Example: "Name (A - Z)", "Name (Z - A)"
      */
     public void selectSortBy(String visibleText) {
-        new org.openqa.selenium.support.ui.Select(driver.findElement(sortDropdown))
-                .selectByVisibleText(visibleText);
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(sortDropdown));
+        // Capture a list item before sorting to detect when the page updates
+        WebElement firstProduct = wait.until(ExpectedConditions.presenceOfElementLocated(productNames));
+
+        new Select(dropdown).selectByVisibleText(visibleText);
+
+        // Wait for the page to refresh (the old product element becomes stale)
+        wait.until(ExpectedConditions.stalenessOf(firstProduct));
     }
 
     /**
      * Returns the text content of all price elements on the current page.
-     * Each entry may look like "$122.00\n$98.00\nEx Tax: $98.00".
      */
     public List<String> getProductPrices() {
-        List<WebElement> priceElements = driver.findElements(productPrices);
+        List<WebElement> priceElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productPrices));
         return priceElements.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
@@ -67,7 +73,6 @@ public class ProductListPage {
 
     /**
      * Returns true if ALL visible prices contain the given currency symbol.
-     * Example: allPricesContainSymbol("$") or allPricesContainSymbol("€")
      */
     public boolean allPricesContainSymbol(String symbol) {
         List<String> prices = getProductPrices();
@@ -75,22 +80,17 @@ public class ProductListPage {
     }
 
     /**
-     * Returns the text of the last (active) breadcrumb link —
-     * e.g. "Tablets" when browsing the Tablets category.
+     * Returns the text of the last (active) breadcrumb link.
      */
     public String getLastBreadcrumbText() {
-        return driver.findElement(lastBreadcrumb).getText().trim();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lastBreadcrumb)).getText().trim();
     }
 
     /**
-     * Returns the text of the currently highlighted item in the left sidebar
-     * category menu — the one with the "active" CSS class.
-     * The raw text may include a product count like "Tablets (1)";
-     * this method strips that suffix so callers can assert plain category names.
+     * Returns the text of the currently highlighted item in the left sidebar.
      */
     public String getActiveSidebarMenuText() {
-        String raw = driver.findElement(activeSidebarItem).getText().trim();
-        // Remove trailing " (n)" product count, e.g. "Tablets (1)" -> "Tablets"
+        String raw = wait.until(ExpectedConditions.visibilityOfElementLocated(activeSidebarItem)).getText().trim();
         return raw.replaceAll("\\s*\\(\\d+\\)$", "");
     }
 
@@ -98,12 +98,14 @@ public class ProductListPage {
      * Clicks "Add to Cart" button for a specific product by its name.
      */
     public void clickAddToCartForProduct(String productName) {
-        List<WebElement> products = driver.findElements(By.cssSelector(".product-layout"));
+        List<WebElement> products = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(
+                ".product-layout")));
         boolean found = false;
         for (WebElement product : products) {
             String name = product.findElement(By.cssSelector("h4 a")).getText();
             if (name.equalsIgnoreCase(productName)) {
-                product.findElement(By.cssSelector("button[onclick*='cart.add']")).click();
+                WebElement addButton = product.findElement(By.cssSelector("button[onclick*='cart.add']"));
+                wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
                 found = true;
                 break;
             }
@@ -117,10 +119,7 @@ public class ProductListPage {
      * Returns the text of the success alert.
      */
     public String getSuccessAlertText() {
-        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver,
-                java.time.Duration.ofSeconds(10));
-        WebElement alert =
-                wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(successAlert));
+        WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(successAlert));
         return alert.getText().replaceAll("×", "").trim();
     }
 }

@@ -47,18 +47,18 @@ public class CheckoutPage {
 
     public void fillBillingDetails(String firstName, String lastName, String address1, String city, String postCode,
                                    String country, String zone) {
-        driver.findElement(firstNameInput).sendKeys(firstName);
-        driver.findElement(lastNameInput).sendKeys(lastName);
-        driver.findElement(address1Input).sendKeys(address1);
-        driver.findElement(cityInput).sendKeys(city);
-        driver.findElement(postCodeInput).sendKeys(postCode);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameInput)).sendKeys(firstName);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameInput)).sendKeys(lastName);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(address1Input)).sendKeys(address1);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(cityInput)).sendKeys(city);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(postCodeInput)).sendKeys(postCode);
 
         Select countryDropDown = new Select(driver.findElement(countrySelect));
         countryDropDown.selectByVisibleText(country);
 
         // Zone might take a moment to load after country selection
-        wait.until(ExpectedConditions.presenceOfNestedElementsLocatedBy(zoneSelect, By.tagName("option")));
-        Select zoneDropDown = new Select(driver.findElement(zoneSelect));
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(zoneSelect, zone));
+        Select zoneDropDown = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(zoneSelect)));
         zoneDropDown.selectByVisibleText(zone);
     }
 
@@ -74,7 +74,7 @@ public class CheckoutPage {
     }
 
     public void clickContinueBilling() {
-        driver.findElement(continueBillingButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(continueBillingButton)).click();
     }
 
     public void clickContinueShipping() {
@@ -86,7 +86,7 @@ public class CheckoutPage {
     }
 
     public void clickContinueShippingMethod() {
-        driver.findElement(continueShippingMethodButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(continueShippingMethodButton)).click();
     }
 
     public void checkTermsAndConditions() {
@@ -94,7 +94,7 @@ public class CheckoutPage {
     }
 
     public void clickContinuePaymentMethod() {
-        driver.findElement(continuePaymentMethodButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(continuePaymentMethodButton)).click();
     }
 
     public String getTotalFromConfirm() {

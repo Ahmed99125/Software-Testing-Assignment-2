@@ -2,10 +2,15 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class AdvancedSearchPage {
-    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By searchInput = By.id("input-search");
     private final By categoryDropdown = By.name("category_id");
@@ -14,29 +19,31 @@ public class AdvancedSearchPage {
     private final By noResultsMessage = By.cssSelector("#content p:nth-of-type(2)");
 
     public AdvancedSearchPage(WebDriver driver) {
-        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void enterSearchKeyword(String keyword) {
-        driver.findElement(searchInput).clear();
-        driver.findElement(searchInput).sendKeys(keyword);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(searchInput));
+        element.clear();
+        element.sendKeys(keyword);
     }
 
     public void selectCategory(String categoryName) {
-        new Select(driver.findElement(categoryDropdown)).selectByVisibleText(categoryName);
+        new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(categoryDropdown))).selectByVisibleText(categoryName);
     }
 
     public void checkSearchInSubcategories() {
-        if (!driver.findElement(subCategoryCheckbox).isSelected()) {
-            driver.findElement(subCategoryCheckbox).click();
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(subCategoryCheckbox));
+        if (!element.isSelected()) {
+            element.click();
         }
     }
 
     public void clickSearchButton() {
-        driver.findElement(searchButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
     }
 
     public String getNoResultsMessage() {
-        return driver.findElement(noResultsMessage).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(noResultsMessage)).getText();
     }
 }

@@ -3,9 +3,13 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class RegistrationPage {
-    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By firstName = By.name("firstname");
     private final By lastName = By.name("lastname");
@@ -24,41 +28,41 @@ public class RegistrationPage {
 
 
     public RegistrationPage(WebDriver driver) {
-        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void fillFirstName(String firstNameInput) {
-        WebElement input = driver.findElement(firstName);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(firstName));
         input.clear();
         input.sendKeys(firstNameInput);
     }
 
     public void fillLastName(String lastNameInput) {
-        WebElement input = driver.findElement(lastName);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(lastName));
         input.clear();
         input.sendKeys(lastNameInput);
     }
 
     public void fillEmail(String emailInput) {
-        WebElement input = driver.findElement(email);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(email));
         input.clear();
         input.sendKeys(emailInput);
     }
 
     public void fillTelephone(String telephoneInput) {
-        WebElement input = driver.findElement(telephone);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(telephone));
         input.clear();
         input.sendKeys(telephoneInput);
     }
 
     public void fillPassword(String passwordInput) {
-        WebElement input = driver.findElement(password);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(password));
         input.clear();
         input.sendKeys(passwordInput);
     }
 
     public void fillConfirmPassword(String confirmPasswordInput) {
-        WebElement input = driver.findElement(confirmPassword);
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(confirmPassword));
         input.clear();
         input.sendKeys(confirmPasswordInput);
     }
@@ -75,34 +79,34 @@ public class RegistrationPage {
     }
 
     public void fillPrivacyPolicy() {
-        WebElement element = driver.findElement(privacyPolicy);
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(privacyPolicy));
         if (!element.isSelected()) {
             element.click();
         }
     }
 
     public void clickContinueButton() {
-        driver.findElement(continueButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(continueButton)).click();
     }
 
     // Action Methods to extract the error text
     public String getFirstNameErrorText() {
-        return driver.findElement(firstNameError).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameError)).getText();
     }
 
     public String getLastNameErrorText() {
-        return driver.findElement(lastNameError).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameError)).getText();
     }
 
     public String getEmailErrorText() {
-        return driver.findElement(emailError).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(emailError)).getText();
     }
 
     public String getTelephoneErrorText() {
-        return driver.findElement(telephoneError).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(telephoneError)).getText();
     }
 
     public String getPasswordErrorText() {
-        return driver.findElement(passwordError).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(passwordError)).getText();
     }
 }

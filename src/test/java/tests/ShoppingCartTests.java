@@ -31,6 +31,9 @@ public class ShoppingCartTests extends BaseTest {
         homePage.clickLoginLink();
         loginPage.login(config.get("username"), config.get("password"));
 
+        homePage.clickShoppingCartLink();
+        shoppingCartPage.clearCart();
+
         // 2- Click on "Tablets"
         topNavPage.clickTablets();
 
