@@ -1,0 +1,84 @@
+﻿Website:http://tutorialsninja.com/demo/index.php?route=common/home,,
+TestCaseName,Steps,Comments
+Registeration without errors,"1- Go to ""My account"" -->Register
+2-Fill in all required data (Ex: FN,LN,...)
+3-Accept the agreement
+4- Click on ""Continue""
+5- Check on this message ""Your Account Has Been Created!"" 
+6- Check on existense of  ""LogOut"" in  ""My Account"" menu
+7- Log out of the system",
+Registeration with errors,"1- Go to ""My account"" -->Register
+2- Try to fill only the FN & LN and leave other fields
+3- Error message displayed under each missed field mentioned that it's required 
+4- Fill all the data missed except the password 
+5- Fill the password with less than 4 characters 
+6- Error message displayed mentioned that ""Password must be between 4 and 20 characters!""
+ ",
+valid login,"1- Go to ""My account""--> Login
+2- Enter  Valid Email/password 
+3- ""My Account"" page opened 
+4- The user can Login to the system",
+invalid login,"1- Go to ""My account""--> Login
+2- Enter  wrong Email/password 
+3- Error message displayed ""No match for E-Mail Address and/or Password.""
+4- The user couldn't Login to the system",
+Change currency,"1- Login by any valid user 
+2- Click on ""Desktops"" ,""Show all Desktops""
+3- By default the Prices will displayed in ""$ dollar""
+4- Change the Currency from the upper Right handSide to ""€ Euro""
+5- The Prices changed accordingly
+6- Logout ",
+Check on bread crumb & Left side menu ,"1- Login by any valid user 
+2- Click on ""Tablets"" 
+3- The latest Link in Bread crumb is ""Tablets""
+4- The highlighted link in right handside is ""Tablets""
+5- Log out",
+Sort By name,"1- Login by any valid user 
+2- Click on ""Phones & PDAs"" 
+3- Sort by name ""A--Z""
+4- The items sorted alphapitcaly ascending
+5- Sort by name ""Z--A""
+6-The items sorted alphapitcaly descending
+7- Log out",
+Search by name ,"1- Login by any valid user
+2- Enter any name in ""search"" input box (Ex: ""Mac"")
+3- Click on ""Search"" 
+4- All Mac products displayed (means all product's names contain ""Mac"") 
+5- Log out",
+Search in subcategories (ex:Apple Cinema 30),"1- Login by any valid user
+2- Click on ""Search"" icon 
+3- Enter ""Apple"" in Search Keyword
+4- Choose ""components""
+5- No products found 
+6- Check on ""Search in subCatergories""
+7- ""Apple Cinema 30"" displayed  
+8- Log out",
+Add items to shopping to chart & compare between small shopping cart ,"1- Login by any valid user
+2- Click on ""Tablets"" 
+3- Add ""Samsung Galaxy Tab 10.1"" to the cart 
+4- Info message ""Success: You have added Samsung Galaxy Tab 10.1 to your shopping cart!""
+5- Open shopping cart and check on the item added & it's price 
+6- Go to ""Laptops"" & Add  ""HP LP3065"" laptop
+7- Change the delivery date  & add it to the shopping cart 
+8- Open the shopping cart to check on the item and it's details (delivery date)
+9- check on the ""Total"" to  be equal the total price of the items 
+10- Log out",some items are out of stock 
+Normal Checkout process and confirm order,"1- Login by any valid user
+2- Click on ""MP3 Players"" -->""Show all MP3 Players"" 
+3- Add ""ipod shuffle"" to the cart 
+4- Info message ""Success: You have added ""ipod shuffle""to your shopping cart!""
+5- Open shopping cart and check on the item added & it's price 
+6- Click on ""View Cart"" to check on that  ""ipod shuffle "" added 
+7- Click on ""Checkout"" button 
+8- Fill billing details by new address 
+9- Check on Address drop down filled by new address 
+10-Click ""continue""
+11- Shipping details  section will open so choose  the new details added and Click ""continue""
+12- Delivery method section will open 
+13- Add Comment & Click on ""Continue""
+14-Payment method section will appear so check on ""Terms & conditions"" Click on ""Continue"" button
+15- ""Confirm order"" section will appear  with the same prices as in shopping cart 
+16- Total price includes the ""Flat shipping rate"" 
+17- Click on ""Confirm Order"" button
+18- ""Your order has been placed!"" message displayed & 0 items found in the small Shopping cart 
+19- Log out ",Warning: You must agree to the Terms & Conditions!

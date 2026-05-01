@@ -8,7 +8,7 @@ import java.util.List;
 public class CSVUtil {
     public static Object[][] getTestData(String filepath) throws Exception {
         List<Object[]> data = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(filepath));
+        BufferedReader br = new BufferedReader(new FileReader("data/" + filepath));
         String line;
 
         br.readLine();
