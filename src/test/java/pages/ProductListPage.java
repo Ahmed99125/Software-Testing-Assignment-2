@@ -13,6 +13,12 @@ public class ProductListPage {
     // All price elements on the product listing page
     private final By productPrices = By.cssSelector(".product-thumb .price");
 
+    // Sort dropdown
+    private final By sortDropdown = By.id("input-sort");
+
+    // Product names
+    private final By productNames = By.cssSelector(".product-layout .caption h4 a");
+
     // Last item in the breadcrumb trail (the current page)
     private final By lastBreadcrumb = By.cssSelector("ul.breadcrumb li:last-child a");
 
@@ -21,6 +27,24 @@ public class ProductListPage {
 
     public ProductListPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    /**
+     * Returns the text of all product names visible on the page.
+     */
+    public List<String> getProductNames() {
+        return driver.findElements(productNames).stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Selects an option from the 'Sort By' dropdown by its visible text.
+     * Example: "Name (A - Z)", "Name (Z - A)"
+     */
+    public void selectSortBy(String visibleText) {
+        new org.openqa.selenium.support.ui.Select(driver.findElement(sortDropdown))
+                .selectByVisibleText(visibleText);
     }
 
     /**
