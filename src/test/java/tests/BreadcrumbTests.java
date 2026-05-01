@@ -2,27 +2,23 @@ package tests;
 
 import base.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.ProductListPage;
 import pages.TopNavPage;
+import utils.CSVUtil;
 
 public class BreadcrumbTests extends BaseTest {
 
-    // -----------------------------------------------------------------------
-    // TC-06 : Check on Breadcrumb & Left Side Menu
-    // Steps:
-    //   1. Login by any valid user
-    //   2. Click on "Tablets"
-    //   3. Verify the last link in the breadcrumb is "Tablets"
-    //   4. Verify the highlighted link in the LEFT side menu is "Tablets"
-    //      (Note: the test scenario document says "right handside" but the
-    //       category menu is physically in the left column on the live site)
-    //   5. Log out
-    // -----------------------------------------------------------------------
-    @Test
-    public void BreadcrumbAndSideMenuTest() {
+    @DataProvider(name = "breadcrumbData")
+    public Object[][] getBreadcrumbData() throws Exception {
+        return CSVUtil.getTestData("BreadcrumbData.csv");
+    }
+
+    @Test(dataProvider = "breadcrumbData")
+    public void BreadcrumbAndSideMenuTest(String category) {
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = new LoginPage(driver);
         TopNavPage topNavPage = new TopNavPage(driver);
@@ -31,23 +27,23 @@ public class BreadcrumbTests extends BaseTest {
         // 1. Login with a valid user
         homePage.clickMyAccountLink();
         homePage.clickLoginLink();
-        loginPage.login("abc@gc.com", "1234");
+        loginPage.login(config.get("username"), config.get("password"));
 
-        // 2. Click on "Tablets" in the top navigation
-        topNavPage.clickTablets();
+        // 2. Click on category in the top navigation
+        topNavPage.navigateToCategory(category);
 
-        // 3. Verify the last breadcrumb item is "Tablets"
+        // 3. Verify the last breadcrumb item
         Assert.assertEquals(
                 productListPage.getLastBreadcrumbText(),
-                "Tablets",
-                "The last breadcrumb link should be 'Tablets'."
+                category,
+                "The last breadcrumb link should be '" + category + "'."
         );
 
-        // 4. Verify the highlighted / active item in the left side menu is "Tablets"
+        // 4. Verify the highlighted / active item in the left side menu
         Assert.assertEquals(
                 productListPage.getActiveSidebarMenuText(),
-                "Tablets",
-                "The active left side menu item should be 'Tablets'."
+                category,
+                "The active left side menu item should be '" + category + "'."
         );
 
         // 5. Logout

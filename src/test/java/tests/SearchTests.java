@@ -23,15 +23,6 @@ public class SearchTests extends BaseTest {
         return utils.CSVUtil.getTestData("SubCategorySearchData.csv");
     }
 
-    // -----------------------------------------------------------------------
-    // TC-08 : Search by name
-    // Steps:
-    //   1. Login by any valid user
-    //   2. Enter any name in "search" input box
-    //   3. Click on "Search"
-    //   4. Verify all displayed products contain the search keyword
-    //   5. Log out
-    // -----------------------------------------------------------------------
     @Test(dataProvider = "searchData")
     public void SearchByNameTest(String searchKeyword) {
         HomePage homePage = new HomePage(driver);
@@ -41,7 +32,7 @@ public class SearchTests extends BaseTest {
         // 1. Login with a valid user
         homePage.clickMyAccountLink();
         homePage.clickLoginLink();
-        loginPage.login("abc@gc.com", "1234");
+        loginPage.login(config.get("username"), config.get("password"));
 
         // 2. Enter name in search box and 3. Click Search
         homePage.search(searchKeyword);
@@ -61,18 +52,6 @@ public class SearchTests extends BaseTest {
         homePage.clickLogoutLink();
     }
 
-    // -----------------------------------------------------------------------
-    // TC-09 : Search in subcategories
-    // Steps:
-    //   1. Login by any valid user
-    //   2. Click on "Search" icon
-    //   3. Enter "Apple" in Search Keyword
-    //   4. Choose "Components"
-    //   5. No products found
-    //   6. Check on "Search in subcategories"
-    //   7. "Apple Cinema 30" displayed
-    //   8. Log out
-    // -----------------------------------------------------------------------
     @Test(dataProvider = "subCategorySearchData")
     public void SearchInSubcategoriesTest(String keyword, String category, String expectedProduct) {
         HomePage homePage = new HomePage(driver);
@@ -83,7 +62,7 @@ public class SearchTests extends BaseTest {
         // 1. Login with a valid user
         homePage.clickMyAccountLink();
         homePage.clickLoginLink();
-        loginPage.login("abc@gc.com", "1234");
+        loginPage.login(config.get("username"), config.get("password"));
 
         // 2. Click on "Search" icon (empty search)
         homePage.search(keyword);

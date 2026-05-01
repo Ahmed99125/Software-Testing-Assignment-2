@@ -2,11 +2,13 @@ package tests;
 
 import base.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.ProductListPage;
 import pages.TopNavPage;
+import utils.CSVUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,19 +16,13 @@ import java.util.List;
 
 public class SortTests extends BaseTest {
 
-    // -----------------------------------------------------------------------
-    // TC-07 : Sort By name
-    // Steps:
-    //   1. Login by any valid user
-    //   2. Click on "Phones & PDAs"
-    //   3. Sort by name "A--Z"
-    //   4. Verify the items sorted alphabetically ascending
-    //   5. Sort by name "Z--A"
-    //   6. Verify the items sorted alphabetically descending
-    //   7. Log out
-    // -----------------------------------------------------------------------
-    @Test
-    public void SortByNameTest() {
+    @DataProvider(name = "sortData")
+    public Object[][] getSortData() throws Exception {
+        return CSVUtil.getTestData("SortData.csv");
+    }
+
+    @Test(dataProvider = "sortData")
+    public void SortByNameTest(String category) {
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = new LoginPage(driver);
         TopNavPage topNavPage = new TopNavPage(driver);
@@ -35,12 +31,12 @@ public class SortTests extends BaseTest {
         // 1. Login with a valid user
         homePage.clickMyAccountLink();
         homePage.clickLoginLink();
-        loginPage.login("abc@gc.com", "1234");
+        loginPage.login(config.get("username"), config.get("password"));
 
-        // 2. Click on "Phones & PDAs"
-        topNavPage.clickPhonesPdas();
+        // 2. Click on Category
+        topNavPage.navigateToCategory(category);
 
-        // 3. Sort by name "Name (A - Z)"
+        // 3. Sort by name ascending
         productListPage.selectSortBy("Name (A - Z)");
 
         // 4. Verify items sorted ascending
@@ -49,7 +45,7 @@ public class SortTests extends BaseTest {
         expectedNamesAsc.sort(String.CASE_INSENSITIVE_ORDER);
         Assert.assertEquals(actualNamesAsc, expectedNamesAsc, "Products are not sorted by Name (A-Z).");
 
-        // 5. Sort by name "Name (Z - A)"
+        // 5. Sort by name descending
         productListPage.selectSortBy("Name (Z - A)");
 
         // 6. Verify items sorted descending

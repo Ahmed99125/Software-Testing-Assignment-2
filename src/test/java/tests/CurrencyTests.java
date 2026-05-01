@@ -18,7 +18,7 @@ public class CurrencyTests extends BaseTest {
         // 1. Login with a valid user
         homePage.clickMyAccountLink();
         homePage.clickLoginLink();
-        loginPage.login("abc@gc.com", "1234");
+        loginPage.login(config.get("username"), config.get("password"));
 
         // 2. Navigate to Desktops -> Show All Desktops
         topNavPage.clickDesktopsShowAll();

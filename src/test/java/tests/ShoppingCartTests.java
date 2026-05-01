@@ -16,7 +16,7 @@ public class ShoppingCartTests extends BaseTest {
 
     @Test(dataProvider = "shoppingCartData")
     public void testAddItemsToCartAndCompare(
-            String email, String password, String tabletName, String tabletSuccessMessage,
+            String tabletName, String tabletSuccessMessage,
             String laptopName, String deliveryDate, String laptopSuccessMessage) {
 
         HomePage homePage = new HomePage(driver);
@@ -29,7 +29,7 @@ public class ShoppingCartTests extends BaseTest {
         // 1- Login by any valid user
         homePage.clickMyAccountLink();
         homePage.clickLoginLink();
-        loginPage.login(email, password);
+        loginPage.login(config.get("username"), config.get("password"));
 
         // 2- Click on "Tablets"
         topNavPage.clickTablets();

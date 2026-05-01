@@ -16,7 +16,7 @@ public class CheckoutTests extends BaseTest {
 
     @Test(dataProvider = "checkoutData")
     public void testNormalCheckoutProcess(
-            String email, String password, String category, String productName, String successMessage,
+            String category, String productName, String successMessage,
             String firstName, String lastName, String address, String city,
             String postCode, String country, String zone, String comment,
             String isStockAvailableStr) {
@@ -34,7 +34,7 @@ public class CheckoutTests extends BaseTest {
         // 1- Login by any valid user
         homePage.clickMyAccountLink();
         homePage.clickLoginLink();
-        loginPage.login(email, password);
+        loginPage.login(config.get("username"), config.get("password"));
 
         // Clear cart to ensure test starts with 0 items
         homePage.clickShoppingCartLink();

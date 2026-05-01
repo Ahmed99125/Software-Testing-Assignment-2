@@ -3,12 +3,14 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductListPage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // Success alert shown when item is added to cart
     private final By successAlert = By.cssSelector("div.alert-success");
@@ -31,6 +33,7 @@ public class ProductListPage {
 
     public ProductListPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(10));
     }
 
     /**
@@ -88,7 +91,7 @@ public class ProductListPage {
     public String getActiveSidebarMenuText() {
         String raw = driver.findElement(activeSidebarItem).getText().trim();
         // Remove trailing " (n)" product count, e.g. "Tablets (1)" -> "Tablets"
-        return raw.split(" ")[0];
+        return raw.replaceAll("\\s*\\(\\d+\\)$", "");
     }
 
     /**
