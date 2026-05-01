@@ -41,12 +41,16 @@ public class TopNavPage {
         driver.findElement(showAllDesktops).click();
     }
 
-    /** Clicks the "Tablets" link in the top navigation bar. */
+    /**
+     * Clicks the "Tablets" link in the top navigation bar.
+     */
     public void clickTablets() {
         driver.findElement(tabletsMenu).click();
     }
 
-    /** Clicks the "Phones & PDAs" link in the top navigation bar. */
+    /**
+     * Clicks the "Phones & PDAs" link in the top navigation bar.
+     */
     public void clickPhonesPdas() {
         driver.findElement(phonesPdasMenu).click();
     }

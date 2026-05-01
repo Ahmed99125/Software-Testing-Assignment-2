@@ -79,7 +79,8 @@ public class ShoppingCartTests extends BaseTest {
         double actualTotal = Double.parseDouble(totalPriceStr.replaceAll("[^0-9.]", ""));
         Assert.assertEquals(actualTotal, totalSum,
                 String.format(
-                        "Total price is not equal to sum of item prices! Tablet: %f, Laptop: %f, Total: %f, actualTotal: %f",
+                        "Total price is not equal to sum of item prices! Tablet: %f, Laptop: %f, Total: %f, " +
+                                "actualTotal: %f",
                         tPrice, lPrice, totalSum, actualTotal));
 
         // 10- Log out

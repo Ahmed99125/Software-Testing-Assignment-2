@@ -3,20 +3,16 @@ package tests;
 import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.CurrencyPage;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.ProductListPage;
-import pages.TopNavPage;
+import pages.*;
 
 public class CurrencyTests extends BaseTest {
 
     @Test
     public void ChangeCurrencyTest() {
-        HomePage        homePage        = new HomePage(driver);
-        LoginPage       loginPage       = new LoginPage(driver);
-        TopNavPage      topNavPage      = new TopNavPage(driver);
-        CurrencyPage    currencyPage    = new CurrencyPage(driver);
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        TopNavPage topNavPage = new TopNavPage(driver);
+        CurrencyPage currencyPage = new CurrencyPage(driver);
         ProductListPage productListPage = new ProductListPage(driver);
 
         // 1. Login with a valid user

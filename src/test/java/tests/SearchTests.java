@@ -34,8 +34,8 @@ public class SearchTests extends BaseTest {
     // -----------------------------------------------------------------------
     @Test(dataProvider = "searchData")
     public void SearchByNameTest(String searchKeyword) {
-        HomePage        homePage        = new HomePage(driver);
-        LoginPage       loginPage       = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
         ProductListPage productListPage = new ProductListPage(driver);
 
         // 1. Login with a valid user
@@ -48,12 +48,12 @@ public class SearchTests extends BaseTest {
 
         // 4. Verify all displayed products contain the search keyword
         List<String> productNames = productListPage.getProductNames();
-        
+
         Assert.assertFalse(productNames.isEmpty(), "No products were found for the search term: " + searchKeyword);
-        
+
         for (String name : productNames) {
-            Assert.assertTrue(name.toLowerCase().contains(searchKeyword.toLowerCase()), 
-                "Product name '" + name + "' does not contain the search keyword '" + searchKeyword + "'");
+            Assert.assertTrue(name.toLowerCase().contains(searchKeyword.toLowerCase()),
+                    "Product name '" + name + "' does not contain the search keyword '" + searchKeyword + "'");
         }
 
         // 5. Logout
@@ -75,10 +75,10 @@ public class SearchTests extends BaseTest {
     // -----------------------------------------------------------------------
     @Test(dataProvider = "subCategorySearchData")
     public void SearchInSubcategoriesTest(String keyword, String category, String expectedProduct) {
-        HomePage           homePage           = new HomePage(driver);
-        LoginPage          loginPage          = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
         AdvancedSearchPage advancedSearchPage = new AdvancedSearchPage(driver);
-        ProductListPage    productListPage    = new ProductListPage(driver);
+        ProductListPage productListPage = new ProductListPage(driver);
 
         // 1. Login with a valid user
         homePage.clickMyAccountLink();
@@ -90,17 +90,19 @@ public class SearchTests extends BaseTest {
 
         // 3. Choose category
         advancedSearchPage.selectCategory(category);
-        
+
         // 4. Search and verify no products found
         advancedSearchPage.clickSearchButton();
-        Assert.assertEquals(advancedSearchPage.getNoResultsMessage(), "There is no product that matches the search criteria.");
+        Assert.assertEquals(advancedSearchPage.getNoResultsMessage(), "There is no product that matches the search " +
+                "criteria.");
 
         // 5. Check search in subcategories and 6. Search again
         advancedSearchPage.checkSearchInSubcategories();
         advancedSearchPage.clickSearchButton();
 
         List<String> productNames = productListPage.getProductNames();
-        Assert.assertTrue(productNames.contains(expectedProduct), "Expected product '" + expectedProduct + "' was not found in results.");
+        Assert.assertTrue(productNames.contains(expectedProduct), "Expected product '" + expectedProduct + "' was not" +
+                " found in results.");
 
         // 7. Logout
         homePage.clickMyAccountLink();

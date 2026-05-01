@@ -24,24 +24,32 @@ public class CurrencyPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    /** Opens the currency dropdown and waits for it to be visible. */
+    /**
+     * Opens the currency dropdown and waits for it to be visible.
+     */
     private void openCurrencyDropdown() {
         driver.findElement(currencyDropdownToggle).click();
     }
 
-    /** Changes the store currency to Euro (€). */
+    /**
+     * Changes the store currency to Euro (€).
+     */
     public void changeCurrencyToEuro() {
         openCurrencyDropdown();
         wait.until(ExpectedConditions.elementToBeClickable(eurButton)).click();
     }
 
-    /** Changes the store currency back to US Dollar ($). */
+    /**
+     * Changes the store currency back to US Dollar ($).
+     */
     public void changeCurrencyToDollar() {
         openCurrencyDropdown();
         wait.until(ExpectedConditions.elementToBeClickable(usdButton)).click();
     }
 
-    /** Changes the store currency to British Pound (£). */
+    /**
+     * Changes the store currency to British Pound (£).
+     */
     public void changeCurrencyToPound() {
         openCurrencyDropdown();
         wait.until(ExpectedConditions.elementToBeClickable(gbpButton)).click();

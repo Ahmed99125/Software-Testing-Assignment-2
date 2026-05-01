@@ -8,9 +8,9 @@ public class LoginPage {
     private final WebDriver driver;
 
     // Form fields
-    private final By emailInput    = By.id("input-email");
+    private final By emailInput = By.id("input-email");
     private final By passwordInput = By.id("input-password");
-    private final By loginButton   = By.cssSelector("input[type='submit'].btn-primary");
+    private final By loginButton = By.cssSelector("input[type='submit'].btn-primary");
 
     // Error alert shown on failed login
     private final By errorAlert = By.cssSelector("div.alert-danger");
@@ -35,7 +35,9 @@ public class LoginPage {
         driver.findElement(loginButton).click();
     }
 
-    /** Fills email + password then clicks Login. */
+    /**
+     * Fills email + password then clicks Login.
+     */
     public void login(String email, String password) {
         fillEmail(email);
         fillPassword(password);

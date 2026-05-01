@@ -23,7 +23,9 @@ public class AccountPage {
         return driver.findElement(pageHeading).getText().trim();
     }
 
-    /** Returns true when the current URL points to the account dashboard. */
+    /**
+     * Returns true when the current URL points to the account dashboard.
+     */
     public boolean isOnAccountPage() {
         return Objects.requireNonNull(driver.getCurrentUrl()).contains("route=account/account");
     }

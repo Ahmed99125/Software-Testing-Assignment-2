@@ -63,7 +63,8 @@ public class RegistrationPage {
         input.sendKeys(confirmPasswordInput);
     }
 
-    public void fillRegistrationForm(String firstName, String lastName, String email, String telephone, String password, String confirmPassword) {
+    public void fillRegistrationForm(String firstName, String lastName, String email, String telephone,
+                                     String password, String confirmPassword) {
         fillFirstName(firstName);
         fillLastName(lastName);
         fillEmail(email);

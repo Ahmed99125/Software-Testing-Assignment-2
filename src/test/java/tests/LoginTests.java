@@ -24,8 +24,8 @@ public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "validLoginData")
     public void ValidLoginTest(String email, String password) {
-        HomePage    homePage    = new HomePage(driver);
-        LoginPage   loginPage   = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
         AccountPage accountPage = new AccountPage(driver);
 
         // 1. Navigate to the Login page
@@ -59,7 +59,7 @@ public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "invalidLoginData")
     public void InvalidLoginTest(String email, String password) {
-        HomePage  homePage  = new HomePage(driver);
+        HomePage homePage = new HomePage(driver);
         LoginPage loginPage = new LoginPage(driver);
 
         // 1. Navigate to the Login page
@@ -72,7 +72,7 @@ public class LoginTests extends BaseTest {
         // 3. Verify error alert message
         Assert.assertTrue(
                 loginPage.getErrorAlertText()
-                         .contains("No match for E-Mail Address and/or Password."),
+                        .contains("No match for E-Mail Address and/or Password."),
                 "Expected error message about invalid credentials."
         );
 

@@ -46,7 +46,7 @@ public class CheckoutPage {
     }
 
     public void fillBillingDetails(String firstName, String lastName, String address1, String city, String postCode,
-            String country, String zone) {
+                                   String country, String zone) {
         driver.findElement(firstNameInput).sendKeys(firstName);
         driver.findElement(lastNameInput).sendKeys(lastName);
         driver.findElement(address1Input).sendKeys(address1);

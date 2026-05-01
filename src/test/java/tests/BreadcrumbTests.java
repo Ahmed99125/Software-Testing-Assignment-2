@@ -23,9 +23,9 @@ public class BreadcrumbTests extends BaseTest {
     // -----------------------------------------------------------------------
     @Test
     public void BreadcrumbAndSideMenuTest() {
-        HomePage        homePage        = new HomePage(driver);
-        LoginPage       loginPage       = new LoginPage(driver);
-        TopNavPage      topNavPage      = new TopNavPage(driver);
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        TopNavPage topNavPage = new TopNavPage(driver);
         ProductListPage productListPage = new ProductListPage(driver);
 
         // 1. Login with a valid user

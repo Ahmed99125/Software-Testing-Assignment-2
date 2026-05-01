@@ -27,8 +27,10 @@ public class ProductDetailsPage {
     }
 
     public String getSuccessAlertText() {
-        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(10));
-        WebElement alert = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(successAlert));
+        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver,
+                java.time.Duration.ofSeconds(10));
+        WebElement alert =
+                wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(successAlert));
         return alert.getText().replaceAll("×", "").trim();
     }
 }

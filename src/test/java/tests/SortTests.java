@@ -27,9 +27,9 @@ public class SortTests extends BaseTest {
     // -----------------------------------------------------------------------
     @Test
     public void SortByNameTest() {
-        HomePage        homePage        = new HomePage(driver);
-        LoginPage       loginPage       = new LoginPage(driver);
-        TopNavPage      topNavPage      = new TopNavPage(driver);
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        TopNavPage topNavPage = new TopNavPage(driver);
         ProductListPage productListPage = new ProductListPage(driver);
 
         // 1. Login with a valid user

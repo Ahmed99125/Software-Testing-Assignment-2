@@ -19,23 +19,23 @@ public class HomePage {
         this.driver = driver;
     }
 
-    public void clickMyAccountLink(){
+    public void clickMyAccountLink() {
         driver.findElement(myAccountLink).click();
     }
 
-    public void clickRegisterLink(){
+    public void clickRegisterLink() {
         driver.findElement(registerLink).click();
     }
 
-    public void clickLoginLink(){
+    public void clickLoginLink() {
         driver.findElement(loginLink).click();
     }
 
-    public void clickLogoutLink(){
+    public void clickLogoutLink() {
         driver.findElement(logoutLink).click();
     }
 
-    public Boolean checkLogoutLinkExist(){
+    public Boolean checkLogoutLinkExist() {
         return driver.findElement(logoutLink).isDisplayed();
     }
 
